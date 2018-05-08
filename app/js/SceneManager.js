@@ -33,7 +33,7 @@ class SceneManager {
         THREEx.WindowResize(this.renderer, this.camera);
 
         // Background clear color
-        this.renderer.setClearColor(0xffffff, 1);
+        this.renderer.setClearColor(0x888888, 1);
         this.renderer.clear();
         this.scene.add(new THREE.HemisphereLight(0xffffff, 0x222222));
         var grid = new THREE.GridHelper(50, 50);

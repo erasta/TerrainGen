@@ -65,20 +65,34 @@ class Application {
             w *= 0.5;
             m *= 2.0;
         }
-        // h += smoothstep(-0.6, 1.2, h); // exaggerate the higher terrain
+        h += smoothstep(-0.6, 1.2, h); // exaggerate the higher terrain
         return h;
     }
 
     buildGrid() {
-        this.points = new THREE.Points(new THREE.Geometry());
-        this.sceneManager.scene.add(this.points);
+        this.land = new THREE.Mesh(new THREE.Geometry(), new THREE.MeshLambertMaterial({ color: 'green' }));
+        this.sceneManager.scene.add(this.land);
 
+        var colors = [new THREE.Color('pearl'), new THREE.Color('green'), new THREE.Color('brown')]
         const geoLOD = 4;
         for (var y = -50; y <= 50; y += 0.2) {
             for (let x = -50; x <= 50; x += 0.2) {
-                var h = this.terrain(x / 10, y / 10, geoLOD) * 10;
-                this.points.geometry.vertices.push(new THREE.Vector3(x, y, h));
+                var x0 = x / 10, y0 = y / 10, x1 = x0 + 0.02, y1 = y0 + 0.02;
+                var v = this.land.geometry.vertices.length;
+                var h00 = this.terrain(x0 + 10, y0 + 10, geoLOD);
+                var h01 = this.terrain(x0 + 10, y1 + 10, geoLOD);
+                var h10 = this.terrain(x1 + 10, y0 + 10, geoLOD);
+                var h11 = this.terrain(x1 + 10, y1 + 10, geoLOD);
+                this.land.geometry.vertices.push(new THREE.Vector3(x0 * 10, y0 * 10, h00 * 10));
+                this.land.geometry.vertices.push(new THREE.Vector3(x0 * 10, y1 * 10, h01 * 10));
+                this.land.geometry.vertices.push(new THREE.Vector3(x1 * 10, y0 * 10, h10 * 10));
+                this.land.geometry.vertices.push(new THREE.Vector3(x1 * 10, y1 * 10, h11 * 10));
+                this.land.geometry.faces.push(new THREE.Face3(v, v + 2, v + 1, undefined, h00 < -1 ? colors[1] : colors[2]));
+                this.land.geometry.faces.push(new THREE.Face3(v + 2, v + 3, v + 1, undefined, h00 > -1 ? colors[1] : colors[2]));
             }
         }
+
+        this.land.geometry.mergeVertices();
+        this.land.geometry.computeVertexNormals();
     }
 }
