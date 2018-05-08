@@ -70,10 +70,10 @@ class Application {
     }
 
     buildGrid() {
-        this.land = new THREE.Mesh(new THREE.Geometry(), new THREE.MeshLambertMaterial({ color: 'green' }));
+        var colors = [new THREE.Color('snow'), new THREE.Color('green'), new THREE.Color('dimgrey')]
+        this.land = new THREE.Mesh(new THREE.Geometry(), new THREE.MeshLambertMaterial({ vertexColors: THREE.FaceColors }));
         this.sceneManager.scene.add(this.land);
 
-        var colors = [new THREE.Color('pearl'), new THREE.Color('green'), new THREE.Color('brown')]
         const geoLOD = 4;
         for (var y = -50; y <= 50; y += 0.2) {
             for (let x = -50; x <= 50; x += 0.2) {
@@ -87,8 +87,10 @@ class Application {
                 this.land.geometry.vertices.push(new THREE.Vector3(x0 * 10, y1 * 10, h01 * 10));
                 this.land.geometry.vertices.push(new THREE.Vector3(x1 * 10, y0 * 10, h10 * 10));
                 this.land.geometry.vertices.push(new THREE.Vector3(x1 * 10, y1 * 10, h11 * 10));
-                this.land.geometry.faces.push(new THREE.Face3(v, v + 2, v + 1, undefined, h00 < -1 ? colors[1] : colors[2]));
-                this.land.geometry.faces.push(new THREE.Face3(v + 2, v + 3, v + 1, undefined, h00 > -1 ? colors[1] : colors[2]));
+                var f1 = new THREE.Face3(v, v + 2, v + 1);//, undefined, h00 < -1 ? colors[1] : colors[2]));
+                var f2 = new THREE.Face3(v + 2, v + 3, v + 1);//, undefined, h00 > -1 ? colors[1] : colors[2]));
+                f1.color = f2.color = h00 < 0.5 ? colors[1] : h00 > 1 ? colors[0] : colors[2];
+                this.land.geometry.faces.push(f1, f2);
             }
         }
 
