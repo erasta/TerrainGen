@@ -32,16 +32,35 @@ class Application {
         this.sceneManager.scene.add(this.dot);
     }
 
+    mergeGeometry(geom, add) {
+        var v = geom.vertices.length;
+        for (var i = 0; i < add.vertices.length; ++i) {
+            geom.vertices.push(add.vertices[i]);
+        }
+        for (var i = 0; i < add.faces.length; ++i) {
+            var f = add.faces[i];
+            geom.faces.push(new THREE.Face3(f.a + v, f.b + v, f.c + v));
+        }
+    }
     buildGrid() {
         this.land = new THREE.Mesh(new THREE.Geometry(), new THREE.MeshLambertMaterial({ vertexColors: THREE.FaceColors }));
         this.sceneManager.scene.add(this.land);
         this.terrain = new Terrain(this.land);
 
-        for (var y = -7; y <=7; y += 0.1) {
+        for (var y = -7; y <= 7; y += 0.1) {
             for (let x = -7; x <= 7; x += 0.1) {
                 this.terrain.buildSquareAt(x, y, 0.1);
+                if (Math.random() > 0.99) {
+                    var h = this.terrain.calcHeightAt(x, y, this.terrain.geoLOD);
+                    this.sceneManager.scene.add(new Tree(new THREE.Vector3(x, y, h), 0.1, 0.2).mesh);
+                }
             }
         }
+
+        // this.tree = new Tree(new THREE.Vector3(1,1,1), 0.1, 0.2);
+        // this.sceneManager.scene.add(this.tree.mesh);
+        // this.tree.mesh.geometry.applyMatrix(this.tree.mesh.matrix);
+        // this.mergeGeometry(this.land.geometry, this.tree.mesh.geometry);
 
         this.land.geometry.mergeVertices();
         this.land.geometry.computeVertexNormals();
