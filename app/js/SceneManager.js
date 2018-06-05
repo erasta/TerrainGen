@@ -1,6 +1,6 @@
 class SceneManager {
     constructor(application) {
-        THREE.Object3D.DefaultUp.set(0, 0, 1);
+        // THREE.Object3D.DefaultUp.set(0, 0, 1);
 
         // SCENE
         this.scene = new THREE.Scene();

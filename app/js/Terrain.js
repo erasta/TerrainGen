@@ -50,12 +50,12 @@ class Terrain {
         var h01 = this.calcHeightAt(x0, y1, this.geoLOD);
         var h10 = this.calcHeightAt(x1, y0, this.geoLOD);
         var h11 = this.calcHeightAt(x1, y1, this.geoLOD);
-        this.mesh.geometry.vertices.push(new THREE.Vector3(x0, y0, h00));
-        this.mesh.geometry.vertices.push(new THREE.Vector3(x0, y1, h01));
-        this.mesh.geometry.vertices.push(new THREE.Vector3(x1, y0, h10));
-        this.mesh.geometry.vertices.push(new THREE.Vector3(x1, y1, h11));
-        var f1 = new THREE.Face3(v, v + 2, v + 1);//, undefined, h00 < -1 ? colors[1] : colors[2]));
-        var f2 = new THREE.Face3(v + 2, v + 3, v + 1);//, undefined, h00 > -1 ? colors[1] : colors[2]));
+        this.mesh.geometry.vertices.push(new THREE.Vector3(x0, h00, y0));
+        this.mesh.geometry.vertices.push(new THREE.Vector3(x0, h01, y1));
+        this.mesh.geometry.vertices.push(new THREE.Vector3(x1, h10, y0));
+        this.mesh.geometry.vertices.push(new THREE.Vector3(x1, h11, y1));
+        var f1 = new THREE.Face3(v, v + 1, v + 2);//, undefined, h00 < -1 ? colors[1] : colors[2]));
+        var f2 = new THREE.Face3(v + 2, v + 1, v + 3);//, undefined, h00 > -1 ? colors[1] : colors[2]));
         f1.color = f2.color = h00 < 0.5 ? this.colors[1] : h00 > 1 ? this.colors[0] : this.colors[2];
         this.mesh.geometry.faces.push(f1, f2);
     }
