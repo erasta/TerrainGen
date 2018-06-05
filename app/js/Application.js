@@ -53,7 +53,7 @@ class Application {
                 if (Math.random() > 0.99) {
                 // if (Math.abs(Math.abs(x) + Math.abs(y)) < 0.0001) {
                     var h = this.terrain.calcHeightAt(x, y, this.terrain.geoLOD);
-                    this.sceneManager.scene.add(new Tree(new THREE.Vector3(x, h, y), 0.1, 0.2).mesh);
+                    this.sceneManager.scene.add(new Tree(new THREE.Vector3(x, h, y), 0.2).mesh);
                 }
             }
         }
