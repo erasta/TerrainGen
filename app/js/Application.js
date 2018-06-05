@@ -50,7 +50,7 @@ class Application {
         for (var y = -7; y <= 7; y += 0.1) {
             for (let x = -7; x <= 7; x += 0.1) {
                 this.terrain.buildSquareAt(x, y, 0.1);
-                if (Math.random() > 0.99) {
+                if (Math.random() > 0.993) {
                 // if (Math.abs(Math.abs(x) + Math.abs(y)) < 0.0001) {
                     var h = this.terrain.calcHeightAt(x, y, this.terrain.geoLOD);
                     this.sceneManager.scene.add(new Tree(new THREE.Vector3(x, h, y), 0.2).mesh);
