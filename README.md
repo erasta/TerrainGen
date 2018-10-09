@@ -1,2 +1,4 @@
-# StandaloneThreeJS
-Stand-alone three.js application template with dat.gui
+# TerrainGen
+Generates terrain
+
+https://erasta.github.io/TerrainGen/index.html
